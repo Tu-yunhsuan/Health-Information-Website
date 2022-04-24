@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康動滋動</title>
+    <link href="css/site.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="./js/jquery-1.11.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.body_muscle').hide();
+            $('#food_page').hide();
+            $('.sport_page').hide();
+            $('.home').click(function(){
+                // $('#body_1').show();
+                // $('#calculator_page').hide();
+                // $('.body_muscle').hide();
+                // $('#injury_page').hide();
+                location.reload(true);
+
+            });
+            $('.menu').hover(function(){
+                $(this).animate({
+                    width: '300px'},
+                    1000);
+                $(this).children('.index_ifo').show();
+            },function(){
+                $(this).animate({
+                    width: '30px'},
+                    500);
+                $(this).children('.index_ifo').hide();
+            });
+
+            $('#body_1').mouseover(function(){
+                $('#logo_p').show();
+            });
+            $('#menu_3').click(function(){
+                $('#body_1').hide();
+                $('#calculator_page').hide();
+                $('.body_muscle').show();
+                $('#injury_page').hide();
+                $('#food_page').hide();
+                $('.sport_page').hide();
+            });
+            $('#menu_1').click(function(){
+                $('#body_1').hide();
+                $('.body_muscle').hide();
+                $('#calculator_page').show();
+                $('#injury_page').hide();
+                $('#food_page').hide();
+                $('.sport_page').hide();
+            });
+            $('#menu_2').click(function(){
+                $('#body_1').hide();
+                $('#calculator_page').hide();
+                $('.body_muscle').hide();
+                $('#injury_page').hide();
+                $('#food_page').hide();
+                $('.sport_page').show();
+                
+            });
+            $('#menu_4').click(function(){
+                $('#body_1').hide();
+                $('#calculator_page').hide();
+                $('.body_muscle').hide();
+                $('#injury_page').hide();
+                $('#food_page').show();
+                $('.sport_page').hide();
+            });
+            $('#menu_5').click(function(){
+                $('#body_1').hide();
+                $('#calculator_page').hide();
+                $('.body_muscle').hide();
+                $('#injury_page').show();
+                $('#food_page').hide();
+                $('.sport_page').hide();
+                $('#injury_preset').fadeIn(1500);
+            });
+            $('.muscle_1').hover(function(){
+                $(this).find('.mp').fadeIn(1000);
+            },function(){
+                $(this).find('.mp').fadeOut(1000);
+            });
+            $('.muscle_2').hover(function(){
+                $(this).find('.mp').fadeIn(1000);
+            },function(){
+                $(this).find('.mp').fadeOut(1500);
+            });
+
+            $('.muscle_1').click(function(){
+                $('.muscle_p').html('');
+                var $x=$(this).find('.mp_ifo').html();
+                $('.muscle_p').append($x);
+            });
+            $('.muscle_2').click(function(){
+                $('.muscle_p').html('');
+                var $x=$(this).find('.mp_ifo').html();
+                $('.muscle_p').append($x);
+            });
+            // ----------熱量計算機----------
+            $('.calculator_img').hover(function(){
+                $(this).css('height','265px');
+                $(this).css('width','265px');
+            },function(){
+                $(this).css('height','250px');
+                $(this).css('width','250px');
+            });
+
+            // ----------熱量計算機----------
+            $('#kcal_img').click(function(){
+                $('#kcal_win').fadeToggle();
+            });
+
+            
+            // var $tmp;
+            var $ans=0;
+            var $count=0;
+            $('.kcal_item').click(function(){
+                $count++;
+                $('#show_select').append('<div class=selected id="selected_'+$count+'">'+$(this).html()+'</div>');
+                var $tmp = $('#selected_'+$count+' p').text();
+                $ans = parseInt($ans) + parseInt($tmp);
+            });
+            $('#kcal_clear').click(function(){
+                $('#show_select').html('');
+                $('#kcal_ans').text('你的熱量攝取量：');
+                $ans=0;
+            });
+            $('#kcal_ok').click(function(){
+                $('#kcal_ans').text( '你的熱量攝取量：'+$ans );
+            });
+
+            $('#kcal_tips_btn').click(function(){
+                $('#kcal_tips').slideToggle();
+            });
+
+            // ----------bmi計算機----------
+            $('#bmi_img').click(function(){
+                $('#bmi_win').fadeToggle();
+            });
+
+            $('#bmi_submit').click(function(){
+                var h = parseFloat($('#input_height').val());
+                var w = parseFloat($('#input_weight').val());
+                var bmi = w/(h/100)**2;
+                bmi=bmi.toFixed(2);
+                if(isNaN(bmi)){
+                    bmi='輸入錯誤';
+                }
+                $('#bmi_value').val(bmi); //給值=bmi
+
+                var radio_sex = $('input[name=gender]:checked').val(); //radio選到的值
+                if(bmi<18.5){
+                    $('#bmi_range').text('體重過輕');
+                    if(radio_sex=='male'){
+                        $('#bmi_result_img img').attr('src','img/male_underweight.png');
+                    }else if(radio_sex=='female'){
+                        $('#bmi_result_img img').attr('src','img/female_underweight.png');
+                    }
+                    $('.recommend2').css('border','1.25px solid dimgray');
+                    $('.recommend3').css('border','1.25px solid dimgray');
+                    $('.recommend1').css('border','2px solid cornflowerblue');//推薦食物
+
+                }else if(bmi<24){
+                    $('#bmi_range').text('體重正常');
+                    if(radio_sex=='male'){
+                        $('#bmi_result_img img').attr('src','img/male_normal.png');
+                    }else if(radio_sex=='female'){
+                        $('#bmi_result_img img').attr('src','img/female_normal.png');
+                    }
+                    $('.recommend1').css('border','1.25px solid dimgray');
+                    $('.recommend3').css('border','1.25px solid dimgray');
+                    $('.recommend2').css('border','2px solid cornflowerblue');//推薦食物
+
+                }else if(bmi>=24){
+                    $('#bmi_range').text('體重異常');
+                    if(radio_sex=='male'){
+                        $('#bmi_result_img img').attr('src','img/male_overweight.png');
+                    }else if(radio_sex=='female'){
+                        $('#bmi_result_img img').attr('src','img/female_overweight.png');
+                    }
+                    $('.recommend1').css('border','1.25px solid dimgray');
+                    $('.recommend2').css('border','1.25px solid dimgray');
+                    $('.recommend3').css('border','2px solid cornflowerblue');//推薦食物
+                }
+                $('#kcal_recommend').text('藍色方框為建議攝取食物');
+            });
+            $('#bmi_reset').click(function(){
+                $('#input_height').val('');
+                $('#input_weight').val('');
+                $('#bmi_value').val('?');
+                $('#bmi_range').text('你的體重是...');
+                $('#bmi_result_img img').attr('src','img/bmi.png')
+                $('.recommend1').css('border','1.25px solid dimgray');
+                $('.recommend3').css('border','1.25px solid dimgray');
+                $('.recommend2').css('border','1.25px solid dimgray');
+                $('#kcal_recommend').text('計算BMI取得建議攝取食物');
+            });
+
+            /*injury*/
+            // $('#injury_preset').fadeIn(1500);
+
+            var $injury_count=0;
+            var $left_count=0;
+            $('.injury_option').click(function(){
+                $injury_count++;
+                $left_count++;
+                $('#chatroom_body').append('<div class="right"><div class=injury_selected id="injury_selected_'+$injury_count+' ">'+'我想瞭解'+$(this).html()+'</div><div><img src="img/user.png"></div></div>');
+                $('#chatroom_body').append($('<div class="left_inline"><div class="left" id="left_'+$left_count+'">'+'<img src="img/injury.png">'+$(this).html()+'</div></div>').hide().fadeIn(2000));
+            });
+
+            $('#chatroom_tips').click(function(){
+                $('#injury_win').show();
+            });
+            $('#injury_win_close').click(function(){
+                $('#injury_win').hide();
+            });
+            //--------------熱量表格-----------------------
+
+            $('#Calories_img').click(function(){
+                $('#Calories_form').fadeIn(1000)
+                $('#meal_form').hide();
+                $('#drink_form').hide();
+            });
+            $('#cal_form_close').click(function(){
+                $('#Calories_form').fadeOut(1000);
+            });
+            $('#fruits_btn').click(function(){
+                $('#fruits_form').slideToggle();
+                $('#meal_form').hide();
+                $('#drink_form').hide();
+            });
+            $('#meal_btn').click(function(){
+                $('#fruits_form').hide();
+                $('#drink_form').hide();
+                $('#meal_form').slideToggle();
+            });
+            $('#drink_btn').click(function(){
+                $('#fruits_form').hide();
+                 $('#meal_form').hide();
+                $('#drink_form').slideToggle();
+            });
+        //--------------健身食譜-----------------------
+            $('#recipe_img').click(function(){
+                $('#recipe_part').fadeIn(1000);
+                $('#page2 img').hide();
+                $('#page3 img').hide();
+                $('#page4 img').hide();
+                $('#page5 img').hide();
+            });
+            $('#recipe_form_close').click(function(){
+                $('#recipe_part').fadeOut(1000);
+            });
+            var $count_tal=0
+            $('#recipe_left_arrow').click(function(){
+                $count_tal--;
+                if($count_tal<=0)
+                {
+                    $('.book_box img').attr('src','img/food/recipe_01.jpg');
+                }
+                if($count_tal==1)
+                  $('.book_box img').attr('src','img/food/recipe_02.jpg');
+                if($count_tal==2)
+                  $('.book_box img').attr('src','img/food/recipe_03.jpg');  
+                if($count_tal==3)
+                  $('.book_box img').attr('src','img/food/recipe_04.jpg');  
+                if($count_tal==4)
+                  $('.book_box img').attr('src','img/food/recipe_05.jpg');  
+            });
+            var $count_tal=0
+            $('#recipe_right_arrow').click(function(){
+                $count_tal++;
+              $('.book_box img').attr('src','img/food/recipe_01.jpg');
+                if($count_tal==1)
+                  $('.book_box img').attr('src','img/food/recipe_02.jpg');
+                if($count_tal==2)
+                  $('.book_box img').attr('src','img/food/recipe_03.jpg');  
+                if($count_tal==3)
+                  $('.book_box img').attr('src','img/food/recipe_04.jpg');  
+                if($count_tal>=4)
+                  $('.book_box img').attr('src','img/food/recipe_05.jpg');  
+            });
+        //--------------推薦飲食-----------------------
+            $('#insearch_img').click(function(){
+                $('#insearch_part').fadeIn(1000)
+            });
+            $('#insearch_form_close').click(function(){
+                $('#insearch_part').fadeOut(1000);
+            });
+           
+            
+            $('#insearch_ok').click(function(){
+                var $checkValue=$("#work").val(); 
+                var w = parseFloat($('#WEIGHT_show').val());
+                var total=parseFloat((w*30)-500);/*輕閒工作*/
+                var total1=parseFloat((w*35)-500);/*中度工作*/
+                var total2=parseFloat((w*40)-500);/*重度工作*/
+               if($checkValue==1)
+                {
+                    $('#insearch_show').text(total);
+                }
+                else if($checkValue==2)
+                {
+                    $('#insearch_show').text(total1);
+                }
+                else if($checkValue==3)
+                {
+                    $('#insearch_show').text(total2);
+                }
+            });
+            
+            $('#insearch_tips_btn').click(function(){
+                $('#insearch_tips').slideToggle();
+            });
+            $('#insearch_clear').click(function(){
+                $('#WEIGHT_show').val('');
+                $('.show_select_2').html('');
+                $('#work').val('0');
+            });
+            //健身
+            // tips_page--------------------------------------
+            $('#tips_btn').click(function(){
+                $('#tips_page').show();
+                $('#tipsc1').show();
+                $('#tipsc2').hide();
+                $('#tipsc3').hide();
+                $('#tipsc4').hide();
+            });
+            $('#tips_page_close').click(function(){
+                $('#tips_page').hide();
+            });
+
+            /*tips_hover*/
+            $('#tips_btn').hover(function(){
+                $(this).css("background-color","#FFB5B5");
+            },function(){
+            	$(this).css("background-color","#FFD4D4");
+            });
+
+            /*tips_btns_hover*/
+            $('#tips1').hover(function(){
+                $(this).css("background-color","#FFBD9D");
+            },function(){
+            	$(this).css("background-color","#FFCBB3");
+            });
+            $('#tips2').hover(function(){
+                $(this).css("background-color","#FFE66F");
+            },function(){
+            	$(this).css("background-color","#FFFFAA");
+            });
+            $('#tips3').hover(function(){
+                $(this).css("background-color","#93FF93");
+            },function(){
+            	$(this).css("background-color","#BBFFBB");
+            });
+            $('#tips4').hover(function(){
+                $(this).css("background-color","#B9B9FF");
+            },function(){
+            	$(this).css("background-color","#CECEFF");
+            });
+
+            /*tips_change*/
+            $('#tips1').click(function(){
+                $('#tipsc1').show();
+                $('#tipsc2').hide();
+                $('#tipsc3').hide();
+                $('#tipsc4').hide();
+            });
+            $('#tips2').click(function(){
+                $('#tipsc1').hide();
+                $('#tipsc2').show();
+                $('#tipsc3').hide();
+                $('#tipsc4').hide();
+            });
+            $('#tips3').click(function(){
+                $('#tipsc1').hide();
+                $('#tipsc2').hide();
+                $('#tipsc3').show();
+                $('#tipsc4').hide();
+            });
+            $('#tips4').click(function(){
+                $('#tipsc1').hide();
+                $('#tipsc2').hide();
+                $('#tipsc3').hide();
+                $('#tipsc4').show();
+            });
+
+            /*tips_close_hover*/
+			$('#tips_page_close').hover(function(){
+                $(this).css("background-color","#E0E0E0");
+            },function(){
+            	$(this).css("background-color","none");
+            });
+
+			
+
+
+            // equ_page---------------------------------------
+            $('#equ_btn').click(function(){
+                $('#equ_page').show();
+                $('#equc1').show();
+                $('#equc2').hide();
+                $('#equc3').hide();
+            });
+            $('#equ_page_close').click(function(){
+                $('#equ_page').hide();
+            });
+            /*equ_hover*/
+            $('#equ_btn').hover(function(){
+                $(this).css("background-color","#97CBFF"); 
+            },function(){
+            	$(this).css("background-color","#ACD6FF");
+            });
+
+            // equ_btns_hover
+            $('#equ1').hover(function(){
+                $(this).css("background-color","#FFAAD5");
+            },function(){
+            	$(this).css("background-color","#FFC1E0");
+            });
+            $('#equ2').hover(function(){
+                $(this).css("background-color","#CDCD9A");
+            },function(){
+            	$(this).css("background-color","#D6D6AD");
+            });
+            $('#equ3').hover(function(){
+                $(this).css("background-color","#A3D1D1");
+            },function(){
+            	$(this).css("background-color","#B3D9D9");
+            });
+            /*equ_change*/
+            $('#equ1').click(function(){
+                $('#equc1').show();
+                $('#equc2').hide();
+                $('#equc3').hide();
+            });
+            $('#equ2').click(function(){
+                $('#equc1').hide();
+                $('#equc2').show();
+                $('#equc3').hide();
+            });
+            $('#equ3').click(function(){
+                $('#equc1').hide();
+                $('#equc2').hide();
+                $('#equc3').show();
+            });
+
+            /*equ_close_hover*/
+            $('#equ_page_close').hover(function(){
+                $(this).css("background-color","#E0E0E0"); 
+            },function(){
+            	$(this).css("background-color","none");
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div class="menu_total">
+        <div class="menu" id="menu_1">
+            <div class="index_ifo">
+                <img src="./img/index_1.png" alt="" class="index_img">
+                <p class="index_p">簡易計算</p>
+            </div>
+        </div>
+        <div class="menu" id="menu_2">
+            <div class="index_ifo">
+                <img src="./img/index_2.png" alt="" class="index_img">
+                <p class="index_p">健身資訊</p>
+            </div>
+        </div>
+        <div class="menu" id="menu_3">
+            <div class="index_ifo">
+                <img src="./img/index_6.png" alt="" class="index_img">
+                <p class="index_p">人體部位</p>
+            </div>
+        </div>
+        <div class="menu" id="menu_4">
+            <div class="index_ifo">
+                <img src="./img/index_5.png" alt="" class="index_img">
+                <p class="index_p">飲食資訊</p>
+            </div>
+        </div>
+        <div class="menu" id="menu_5">
+            <div class="index_ifo">
+                <img src="./img/index_7.png" alt="" class="index_img">
+                <p class="index_p">運動傷害</p>
+            </div>
+        </div>
+        
+    </div>
+    <div class="home">
+        <img src="./img/home.png" alt="" class="home_img">
+    </div>
+    <div class="container">
+        
+        <div id="body_1">
+            <img src="./img/coollogo_com-134191510.gif" alt="">
+            <p id="logo_p">我們希望藉由這個網站讓使用者能夠獲取<br>更多有關我們人體的資訊。<br>
+                我們將會用使用者輸入的身高體重所計算的bmi值<br>進行推薦的健康食譜！<br>
+                如果想要了解身上肌肉及如何鍛鍊，可以查看<br>健身資訊及人體部位來進一步了解我們的身體！</p>
+        </div>
+        <div class="body_muscle">
+            <div class="body_muscle_title">人體肌肉介紹</div>
+            <img src="./img/body_muscle_3.png" alt="" class="muscle_img">
+            <div id="body_muscle2">
+                <div class="muscle_1">
+                    <p class="mp">斜方肌</p>
+                    <p class="mp_ifo"><b>斜方肌（Trapezius）</b>是我們背部最耀眼的一塊肌肉，是將頭部和肩部向後拉的背部肌肉。兩塊斜方肌從脊椎和頭骨底部，經過背部和肩部連接到肩胛骨和鎖骨。他們可使頭部抬起和傾斜，並使雙肩抬起或穩定。兩者共同形成一個稱為斜方型的四邊形，其名稱即來自於此。<br>
+                    斜方肌起於枕外隆凸和枕骨上頸線內三分之一段、頸韌帶、第七頸椎棘突、所有胸椎棘突和相應的棘上韌帶。上束纖維向外和側方延續，止於鎖骨的外側三分之一後緣；其功能為<span class="red">上舉及外旋肩胛骨，協助頭部後仰，側屈及旋轉</span>。下束的纖維向上和側方走行。在肩胛附近聚合成一個腱膜，在肩胛岡內側的三角滑面可以滑動，止於其尖端的一個結節；其功能為下壓肩胛骨。中束纖維水平走行，止於肩峰內側緣，肩胛岡後緣的上唇；其功能為內收（縮回）肩胛骨。
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">三角肌</p>
+                    <p class="mp_ifo">
+                    <b>肩部的三角肌群(Deltoid)</b>它分為前束( anterior fiber)、中束( middle fiber)與後束( posterior fiber)這三塊，它們屬於單關節肌肉主要是<span class="red">協助手臂朝各個方向活動</span>，在練法與功能性也有些許的差異性。以下是三角肌的功能與負責動作:<br>
+
+                    1.前三角肌：由前束( anterior fiber)肌肉所組成，主要做屈曲(flexion) 、內收(adduction)與內旋(interal rotation)，令<span class="red">手臂向前方抬高</span>。<br>
+
+                    2.側(中)三角肌：是由許多肌束所組合而成的中束( middle fiber)肌肉，主要是讓<span class="red">手臂做側邊外展(abduction)</span>的動作。<br>
+
+                    3.後三角肌：由後束( posterior fiber)肌肉所組成，主要是做<span class="red">伸展(extension)、外展(abduction)與外旋(external rotation)</span>的動作，將手臂往後方拉動。<br>
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">肱三頭肌</p>
+                    <p class="mp_ifo">
+                        <b>肱三頭肌</b>以及<b>肱二頭肌</b>都是非常重要又密不可分的肌群，尤其時對男性來說，因為擁有厚實又威猛的手臂，才能讓自己身材更加凸顯以及完美。肱三頭肌英文名「triceps brachii」中的「tri」說明它有三個頭：肱長頭肌附著在肩胛骨上，而另兩個附著在肱骨上。<span class="red">肌肉的遠端有一條有力的腱在肘處附著在尺骨上。如果你盡量伸直手臂，就會感到這條腱繃緊了</span>。<br>
+                        在肱三頭肌的練習動作中，使用<b>啞鈴、槓鈴以及其它扶助器材</b>都是相當重要，肱三頭肌的訓練方式非常多，像是有槓鈴頸後臂屈伸、啞鈴頸後臂屈伸、槓鈴仰臥臂屈伸、仰臥反撐等，這些都可以扎實的訓練到肱三頭肌，為了達到最佳訓練效果，在訓練的過程中，要紮實的用力並注意動作的正確性，在推起或者是壓下重量的訓練時，要持續將手臂完全打直，使每一次訓練都要做滿全程。<br>
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">背闊肌</p>
+                    <p class="mp_ifo">
+                        <b>闊背肌</b>是背部最寬的肌肉，他的淺層薄狀纖維起於下背部，上行至軀幹側邊，並在腋下匯集成一個厚厚的肌束。 闊背肌的兩端都很難凸顯出來，然而它位於肩胛骨外側緣旁邊的中段部分就很容易摸到。 闊背肌主要功能是<span class="red">使肩部伸展、內收、內旋</span>。<br> 闊背肌的肌肉起點包含肩胛下角、最後六節胸椎、胸腰肌膜以及後髂脊，連接到肌肉終點肱骨結節間溝。
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">臀大肌</p>
+                    <p class="mp_ifo">
+                        <b>臀肌</b>的力量很重要，要<span class="red">跑步、走路、跳躍</span>，都需要臀肌的作用。其實，就連<span class="red">身體要站直</span>，就需要臀大肌收縮；當身體要<span class="red">移動位置，往上抬、往下蹲</span>，也要靠臀大肌的幫忙。<br>
+                        如果臀肌不夠健壯，連帶的就更容易下背痛、髖部痛、膝蓋痛，或說下半身的活動都會受限，也更容易受傷。其實對多數人而言，運動的目的並不是要變成精壯的運動員體格，而是讓日常生活更輕鬆、並減少疼痛，避免久坐帶來的危害。這時候，把時間投資在練臀部上，其實是很值得的，而且可說是<span class="red">各種運動動作的基礎</span>。</p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">大腿後肌</p>
+                    <p class="mp_ifo">
+                        <b>大腿後側</b>，位在髖部與膝蓋之間的肌肉群。這部位英文名字稱為「hamstring」，ham是火腿，string是細繩，hamstring就是代表用細繩綁住的火腿肉。所以你知道了，這區油脂比較少，口感比較澀，常被拿來當成火腿肉或金華火腿。大腿後側肌群算是個統稱，包括了三塊主要的肌肉，從外側到內側分別為股二頭肌、半腱肌、半膜肌。<br>
+                        大腿後側肌群的其中一端，起自於「坐骨粗隆」，也就是當我們坐下來時，最容易接觸到椅子的骨頭地方；肌群的另一端超過膝蓋關節，附著於脛骨或腓骨上。大腿後側肌群是由坐骨神經支配，能參與髖部伸直和膝蓋彎曲，因此是相當重要的大肌肉，<span class="red">無論走路、跑步、跳舞、或任何需要彎曲膝蓋、需要衝刺，說停就停的動作</span>，都要動用到大腿後側肌群。
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">腓腸肌</p>
+                    <p class="mp_ifo">
+                        <b>腓腸肌</b>是腿部最大的屈肌，又被暱稱為小腿肚，其拉丁文「gastrocnemius」便意謂「腿肚子」。腓腸肌沿著小腿背後，從股骨的遠端向下延伸到跟骨，當腓腸肌收縮時，可使腳向下彎曲，並輔助膝蓋彎曲，腓腸肌是透過跟腱與足跟相連接，一般來說，蘿蔔腿形成的原因之一就是因為腓腸肌的肌肉太過於發達。<br>
+                        一般來說，在運動時，如果熱身活動不充足，會導致小腿肌肉拉傷，像是在<span class="red">進行短跑起跑、跳躍、轉身或深蹲起立</span>這幾種爆發力運動時，腓腸肌都會強力的收縮，如果過度離心收縮，或是足部著地姿勢不正確，都可以導致腓腸肌拉傷。小腿後群肌肉疼痛，通常位於中部、內側或外側的區塊，而疼痛的分式像是有足尖站立疼痛、屈膝時會疼痛，或是小腿後肌群的肌肉腫脹或血腫等疼痛。
+                    </p>
+                </div>
+                <div class="muscle_1">
+                    <p class="mp">跟腱</p>
+                    <p class="mp_ifo">
+                        <b>跟腱</b>，又稱為阿基里斯腱（源於希臘神話中的「阿基里斯之踵」），是位於小腿後側的肌腱。
+
+                        跟腱是人體中最粗壯有力的肌腱。由腓腸肌和比目魚肌向下融合而成，連接於跟骨後側。跟腱的主要功能為<span class="red">屈小腿與足跖屈</span>。<br>
+
+                        行走時跟腱所承受的負荷可達體重的<span class="red">3.9倍</span>，跑步時則可達體重的<span class="red">7.7倍</span>。
+                    </p>
+                </div>
+            </div>
+            <img src="./img/body_muscle_4.png" alt="" class="muscle_img">
+            <div id="body_muscle3">
+                <div class="muscle_2" style="border: none;"><p></p></div>
+                <div class="muscle_2">
+                    <p class="mp">胸大肌</p>
+                    <p class="mp_ifo">
+                        <b>胸大肌</b>為將手臂拉向胸部的肌肉，兩塊胸大肌位於胸的兩側。胸大肌通常稱為胸肌或胸脯，成扇型，且分裂為大小不等兩部分。在其窄端，兩部分都附著於肱骨之上，在寬的一端，較小的部分附於鎖骨上；較大的部分則附於胸骨和肋骨上面的軟肋骨上，胸肌可將<span class="red">手部向前拉和向內拉近身體，還可使手臂轉動</span>。
+                    </p>
+                </div>
+                <div class="muscle_2">
+                    <p class="mp">肱二頭肌</p>
+                    <p class="mp_ifo">
+                    <b>肱二頭肌</b>是使到<span class="red">手臂彎曲的肌肉</span>，連接肩胛骨和前臂的橈骨，收縮使到前臂彎曲。英文名「biceps brachii」的意思是「臂的兩個頭」，因為該肌靠近軀體的一部份分裂為兩部分。健美運動員展現肌肉時，經常屈曲肱二頭肌，因為它收縮時明顯的鼓起。
+                    </p>
+                </div>
+                <div class="muscle_2">
+                    <p class="mp">腹肌</p>
+                    <p class="mp_ifo">
+                        <b>腹肌</b>位於人體腹腔的前側，包括腹直肌、腹外斜肌，腹內斜肌和腹橫肌；當它們收縮時，可以使<span class="red">軀幹彎曲及旋轉</span>，並防止骨盆前傾。 腹部肌肉對於腰椎的活動和穩定性也有相當重要的作用，還可以控制<span class="red">骨盆與脊柱的活動</span>，是腹部支撐人體力量的來源，有助於人體承受重量，並將力量更平均的分配到整個脊柱。
+                    </p>
+                </div>
+                <div class="muscle_2">
+                    <p class="mp">縫匠肌</p>
+                    <p class="mp_ifo">
+                        <b>縫匠肌</b>是人體最長最薄的一條肌肉，起始點是在腸骨前上脊，然後朝內下方附著於脛骨結節。 它的功能是<span class="red">使腿部彎曲，負責將膝蓋舉起、放下與盤腿的動作也就是翹二郎腿時</span>會用到的大腿肌肉。
+                    </p>
+                </div>
+                <div class="muscle_2">
+                    <p class="mp">股四頭肌</p>
+                    <p class="mp_ifo">
+                        <b>股四頭肌</b>為使膝伸直的一組肌肉，其英文名quadriceps意為四個頭。股四頭肌包括四大塊肌肉：股直肌、股外側肌、股內側肌和股中間肌，此肌肉位於大腿前側。股四頭肌收縮時,拉動膝上的腱並使膝伸直。人類是用這些肌肉<span class="red">行走和奔跑</span>。
+                    </p>
+                </div>
+                <div class="muscle_2" style="border: none;"><p></p></div>
+                <div class="muscle_2" style="border: none;"><p></p></div>
+            </div>
+            <div class="muscle_p">
+                <p id="1" style="display: none;">1</p>
+            </div>
+        </div>
+        <!-- 簡易計算機頁面 -->
+        <!-- 簡易計算機頁面 -->
+        <div id="calculator_page">
+            <div class="calculator_title">簡易計算機</div>
+            <div id="calculator_main">
+                <div id="kcal_btn" class="calculator_btn">
+                    <img src="img/calories-calculator.png" class="calculator_img" id="kcal_img">
+                    <p class="calculator_text" id="calculator_text_kcal">KCAL</p>
+                </div>
+                <div id="bmi_btn" class="calculator_btn">
+                    <img src="img/bmi-calculator.png" class="calculator_img" id="bmi_img">
+                    <p class="calculator_text" id="calculator_text_bmi">BMI</p>
+                </div>
+            </div>
+            <!-- 卡路里 -->
+            <div id="kcal_win">
+                <div id="kcal_title">卡路里計算機</div>
+                <div id="show_select"></div>
+                <div id="kcal_btn_container">
+                    <div class="kcal_submit_btn" id="kcal_clear">清除熱量</div>
+                    <div class="kcal_submit_btn" id="kcal_ok">計算熱量</div>
+                </div>
+                <div id="kcal_item_container">
+                    <div class="kcal_item"><p>280</p>米飯</div>
+                    <div class="kcal_item recommend2"><p>80</p>麵條</div>
+                    <div class="kcal_item"><p>280</p>饅頭</div>
+                    <div class="kcal_item recommend3"><p>70</p>吐司</div>
+                    <div class="kcal_item recommend1"><p>180</p>地瓜</div>
+                    <div class="kcal_item recommend1 recommend2 recommend3"><p>50</p>蔬菜</div>
+                    <div class="kcal_item recommend1"><p>55</p>瘦肉</div>
+                    <div class="kcal_item recommend3"><p>55</p>魚肉</div>
+                    <div class="kcal_item"><p>165</p>雞腿</div>
+                    <div class="kcal_item recommend2"><p>55</p>雞胸肉</div>
+                    <div class="kcal_item"><p>55</p>海鮮</div>
+                    <div class="kcal_item recommend1 "><p>75</p>豆腐</div>
+                    <div class="kcal_item recommend2 recommend3"><p>55</p>雞蛋</div>
+                    <div class="kcal_item"><p>120</p>乳酪</div>
+                    <div class="kcal_item recommend1"><p>120</p>鮮奶</div>
+                    <div class="kcal_item recommend3"><p>55</p>豆漿</div>
+                    <div class="kcal_item recommend2"><p>60</p>水果</div>
+                    <div class="kcal_item"><p>45</p>油脂</div>
+                    <div class="kcal_item"><p>450</p>珍奶</div>
+                    <div class="kcal_item"><p>320</p>蛋糕</div>
+                </div>
+                <div id="kcal_recommend">計算BMI取得建議攝取食物</div>
+                <div id="kcal_ans">你的熱量攝取量：</div>
+                <div id="kcal_tips_btn"><img src="img/light.png"></div>
+                <div id="kcal_tips">
+                    <h3>超簡易食品代換算法</h3>
+                    <p>
+                        1. 五穀類:1碗飯等於2碗稀飯。<br>
+                        2. 肉類:三指幅大小的肉片算1份。<br>
+                        3. 豆類，奶類都屬於蛋白質，可加入肉類計算。<br>
+                        4. 水果類:拳頭大小的水果算1份。<br>
+                        5. 蔬菜類:各種蔬菜1碗算1份。<br>
+                        6. 油脂類:一湯匙油等於1片乳酪。
+                    </p>
+                    
+                </div>
+                
+            </div>
+
+            <!-- BMI值 -->
+            <div id="bmi_win">
+                <div id="bmi_title">BMI值計算</div>
+                <div id="bmi_height">
+                    <div class="bmi_head bmi_column">身高:</div>
+                    <div class="bmi_input bmi_column">
+                        <input type="text" id="input_height">
+                    </div>
+                    <div class="bmi_unit bmi_column">cm</div>
+                </div>
+                <div id="bmi_weight">
+                    <div class="bmi_head bmi_column">體重:</div>
+                    <div class="bmi_input bmi_column">
+                        <input type="text" id="input_weight">
+                    </div>
+                    <div class="bmi_unit bmi_column">kg</div>
+                </div>
+                <div id="bmi_sex">
+                    <div id="bmi_sex_title">性別:</div>
+                    <div id="bmi_sex_radio">
+                        <label><input type="radio" id="male" name="gender" value="male" checked>男性</label>
+                        <label><input type="radio" id="female" name="gender" value="female">女性</label>
+                    </div>
+                </div>
+                <!-- 按鈕 -->
+                <div id="bmi_btn_container">
+                    <div class="bmi_submit_btn" id="bmi_submit">開始計算</div>
+                    <div class="bmi_submit_btn" id="bmi_reset">重新計算</div>
+                </div>
+                <!-- 計算結果 -->
+                <div id="bmi_result_title">計算結果</div>
+                <div id="bmi_result_block">
+                    <div class="bmi_result_item">
+                        <div id="bmi_result_num">
+                            <input type="text" value="?" readonly id="bmi_value">
+                        </div>
+                        <div class="bmi_result_desc">你的BMI值為...</div>
+                    </div>
+                    <div class="bmi_result_item">
+                        <div id="bmi_result_img">
+                            <img src="img/bmi.png">
+                        </div>
+                        <div id="bmi_range" class="bmi_result_desc">你的體重是...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 運動傷害頁面 -->
+        <div id="injury_page">
+            <div id="injury_title">運動傷害處理方法</div>
+            <!-- 聊天室內容 -->
+            <div id="chatroom_body">
+                <div id="injury_preset">
+                    <p>想知道怎麼處理運動傷害嗎？<br>趕快點擊下方選項，就可以得到資訊喔~</p>
+                </div>
+            </div>  
+            <!-- 選項內容 -->
+            <div id="chatroom_box">
+                <div id="chatroom_tips"><img src="img/Injury_tips.png"></div>
+                <div id="chatroom_input">點擊右方選項即可得到資訊！點擊(+)取得急救處理方法~</div>
+                <div id="chatroom_options">
+                    <div class="injury_option">擦傷
+                        <p>原因：因磨擦造成的皮膚破裂</p>
+                        <p>處理方式：<br>
+                            (1) 先用生理食鹽水沖洗掉髒汙。<br>
+                            (2) 比較髒的傷口可擦優碘消毒殺菌。等優碘滲入傷口，把多餘的優碘擦掉。<br>
+                            (3) 蓋上人工皮。<br>
+                        </p>
+                    
+                    </div>
+                    <div class="injury_option">挫傷
+                        <p>原因：皮下組織受到撞擊而受傷，所呈現的瘀腫。</p>
+                        <p>處理方式：<br>
+                            (1) 盡量讓受傷部位休息，避免傷勢惡化及造成二度傷害。<br>
+                            (2) 抬高患肢高於心臟以減輕腫脹及疼痛。<br>
+                            (3) 創傷後48小時內，患肢應給予間歇性冰敷，避免熱敷，每次冰敷15～20分鐘，間隔至少30分鐘，有消炎、怯腫、止痛的效果。<br>
+                            (4) 適當活動患肢手趾或腳趾，以減輕腫脹及避免僵硬，促進血液循環。<br>
+                        </p>
+                    </div>
+                    <div class="injury_option">扭傷
+                        <p>原因：<br>韌帶受到不適當的拉扯，造成其部份或全部的撕裂，局部產生痛及紅腫。</p>
+                        <p>處理方式：<br>
+                            (1) 處理時，先用彈性繃帶將踝關節固定，於傷處外敷冰塊，在用繃帶固定冰袋和踝關節。<br>
+                            (2) 固定幾分鐘後（約3-5分鐘），可先取下繃帶，此時受傷部位腫脹尚不明顯，肌肉痙攣也較輕，可先 進行簡單的檢查。<br>
+                            (3) 檢查的目的主要是確定有無骨折或脫臼的可能，韌帶損傷的程度，以決定下一步之治療方法。<br></p>
+                    </div>
+                    <div class="injury_option">拉傷
+                        <p>原因：肌肉或肌腱過度伸展，造成其局部或全部的撕裂。</p>
+                        <p>處理方式：<br>
+                            (1) 保護Protect:感覺到肌肉拉傷的當下，暫時停止運動，保護患部，避免二度傷害。<br>
+                            (2) 適當負荷Optimal Loading:在拉傷部位進入恢復期後，可以活動活動患部。<br>
+                            (3) 冰敷Ice:拉傷後的6個小時內，冰敷患部2到3次，每次不要超過10分鐘，可以緩解疼痛的感覺。<br>
+                            (4) 壓迫Compression:利用彈性繃帶包紮，對受傷部位加壓，可以減少內出血、防止組織液增加，避免腫脹。<br>
+                            (5) 抬高Elevation:把拉傷的部位抬高到超過心臟的高度，可以減少血液循環到患部、促進組織液回流，避免腫脹。<br>
+                        </p>
+                    </div>
+                    <div class="injury_option">過度使用
+                        <p>原因：因過度重覆使用某一關節或組織，以致超越其本身所能承受的能力，而導致損傷。</p>
+                        <p>處理方式：<br>
+                            (1) 適當的休息： 避免會引發或加重疼痛的動作，並減輕關節負擔。但也不是完全不動，應該輕輕轉動手腕，溫和地活動關節和肌肉。<br>
+                            (2) 冰、冷敷： 局部冰、冷敷腫脹或疼痛的部位，減輕炎症反應及緩解疼痛。可以用毛巾包著冰袋或冰凍礦泉水，然後對疼痛部位進行冰、冷敷，記得十分鐘內適時地更換位置，避免凍傷。<br>
+                            (3) 藥物治療： 如果疼痛嚴重，而影響心情、生活品質，則可以考慮使用酸痛藥膏、服用止痛藥物。但是按照醫師處方的劑量、用法服用，尤其是有胃潰瘍、消化道出血、嚴重肝、腎功能不全等疾病的患者，得特別小心使用。<br>
+                        </p>
+                    </div>
+                    <div class="injury_option">骨折
+                        <p>原因：骨頭受到衝擊或扭曲而折斷，局部會產生痛及紅腫，可能會有肢體變形的現象，活動時可能會有聲響。</p>
+                        <p>處理方式：<br>
+                            (1) 馬上停止運動<br>
+                            (2) 觀察患肢末端之神經、血管狀態。測試活動是否正常，有無活動受限或是肢體麻痺之情形，並確定血液循環的完整性。<br>
+                            (3) 檢視患肢是否有傷口，應先把傷口上可見的污染物先行移除，再以無菌的紗布及繃帶覆蓋傷口。<br>
+                            (4) 適當並及時地固定患肢，使用石膏板或各式副木，或是利用手邊可取得的各種東西加以固定。一般而言，以固定患部上下兩處關節為原則，如小腿處骨折，最好同時固定膝關節及踝關節。<br>
+                            (5) 冰敷及抬高患肢，避免患肢腫脹、流血，減緩疼痛。<br>
+                            (6) 立即送醫治療並小心搬運，避免二度傷產生。<br>
+                            </p>
+                    </div>
+                    <div class="injury_option">脫臼
+                        <p>原因：關節受一衝擊而脫離原位，關節附近的韌帶亦會因此一外力而撕裂，患部會有變形或不正常的扭曲，出現痛及紅腫的現象。</p>
+                        <p>處理方式：<br>
+                            (1) 保持原來的情況加以固定<br>
+                            (2) 儘速到醫院照Ｘ光，確定是脫臼還是骨折<br>
+                            (3) 如果是單純脫臼在專業醫師評估下，將其關節復位<br>
+                            (4) 即便關節復位後，也需要進行復健，慢慢恢復活動<br>
+                            (5) 可進行局部冰敷<br>
+                        </p>
+                    </div>
+                    <div class="injury_option">過熱
+                        <p>原因：因在高溫下運動而過量失去體內的水分或電解質，而導致強烈又不隨意的肌肉收縮，此一現象稱為熱痙攣；在大量失去水分及電解質之後會感到極度疲倦、昏眩、肌肉不協調，甚至失去知覺，此稱為熱衰竭。另一為中暑，當體溫不斷上升，而身體又無法排汗散熱來控制體溫上升，便會有中暑的情形。</p>
+                        <p>處理方式：<br>
+                            (1)「蔭涼」：把患者移動到蔭涼通風處，使其不要繼續待在發生熱傷害的地點。<br>
+                            (2)「脫衣」：有時候可能是患者的衣物穿得不夠透氣或是緊繃導致熱傷害發生，需要鬆脫衣物且勸導患者平躺休息，並為患者抬高足部，以維持血液能回流至大腦與心臟。<br>
+                            (3)「散熱」：準備冰毛巾包裹冰袋放置於頸部、腋窩和鼠蹊部(跨下)等大動脈會經過而且血管較淺薄的地方，並同時以「冷」水(約15°C)間續少量噴灑患者的身體，藉由水分的蒸發順勢帶走體內的熱能。<br>
+                            (4)「喝水」：提供患者稀釋的電解質飲料(如運動飲料)或是含少許鹽分的冷開水，使患者體內的電解質與水分可趨於平衡。<br>
+                            (5)「送醫」：盡快尋求醫護人員的救助，緊急報案專線為：119，在等待救護車的同時應該重複做前面四個步驟。<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- 急救處理視窗 -->
+            <div id="injury_win">
+                <div id="injury_win_close">x</div>
+                <div>
+                    <h3>急性運動傷害處理方法</h3>
+                    <h6>急性運動傷害的處理原則為<i>PRICE</i></h6>
+                    <h4>P（Protection）：</h4><p>保護患部；防止再次的傷害，而使傷害加劇，可利用貼紮或是繃帶包紮作一固定，亦可利用護木來達到固定及保護的效果。</p>
+                    <h4>R（Rest）：</h4><p>患部休息；盡量不要用受傷的部位作任何事，以避免二次傷害的產生，可用柺杖或輔具來達到此目的。</p>
+                    <h4>I（Ice）：</h4><p>冰敷患部；在受傷後48-72小時內，用以消腫，止痛，可利用冰袋或者冷噴霧劑。</p>
+                    <h4>C（Compression）：</h4><p>壓迫患部；用以減輕腫脹，保護患部為目的，可用彈性繃帶或運動貼紮以達壓迫組織的目的。</p>
+                    <h4>E（Elevation）：</h4><p>抬高患部；增加血液的回流，以達減輕腫脹的目的，利用擺位的方式以達目的。</p>
+                </div>
+            </div>
+        </div>
+        <!--飲食頁面  -->
+        <div id="food_page">
+            <div class="food_title">飲食資訊</div>
+            <div id="food_main">
+                <div id="Calories_btn" class="food_btn">
+                    <img src="img/food/Weight.png" class="food_img" id="Calories_img">
+                    <p class="food_text">熱量表格</p>
+                </div>
+                <div id="recipe_btn" class="food_btn">
+                    <img src="img/food/recipe.png" class="food_img" id="recipe_img">
+                    <p class="food_text">健身食譜</p>
+                </div>
+                <div id="recommand_btn" class="food_btn">
+                    <img src="img/food/insearch.png" class="food_img" id="insearch_img">
+                    <p class="food_text">計食開始</p>
+                    <!---高度與其他不同，要調整------>
+                </div>
+            </div>
+        <!-- 熱量表格 -->
+        <div id="Calories_form">
+           <div id="cal_form_close">x</div>
+            <div id="Calories_title">熱量表格</div>
+            <div id="fruits_btn">                  
+                <img src="img/food/fruits.png" class="btn_img" id="fruits_img">
+                <p class="tag_text">水果</p>
+            </div> 
+            <div id="meal_btn">
+                <img src="img/food/meal.png" class="btn_img" id="meal_img">
+                <p class="tag_text">主食</p>
+            </div>
+            <div id="drink_btn">
+                <img src="img/food/drink.png" class="btn_img" id="drink_img">
+                <p class="tag_text">飲料</p>
+            </div>
+            <div id="fruits_form">
+                <img src="img/food/Fruits_form.jpg" class="form_img" id="fruits_form">
+            </div>
+            <div id="meal_form">
+                <img src="img/food/meal.jpg" class="form_img" id="meal_form">
+            </div>
+            <div id="drink_form">
+                <img src="img/food/drink_form.jpg" class="form_img" id="drink_form">
+            </div>
+        </div>
+
+        <!-- 健身食譜 -->
+        <div id="recipe_part">
+           <div id="recipe_form_close">x</div>
+            <div class="recipe_book">
+                <div class="recipe_title">健身食譜</div>
+                <div class=book_section>
+                 <div class="arrow" >
+                  <div id="recipe_left_arrow">
+                  <img src="img/food/left_arrow.png">
+                  </div>
+                  <div id="recipe_right_arrow"><img src="img/food/right_arrow.png"></div>
+                </div>
+                   <div class="book_box">
+                            <div class="photo" id="page1"><img src="img/food/recipe_01.jpg"></div>
+                            <div class="photo" id="page2"><img src="img/food/recipe_02.jpg"></div>
+                            <div class="photo" id="page3"><img src="img/food/recipe_03.jpg"></div>
+                            <div class="photo" id="page4"><img src="img/food/recipe_04.jpg"></div>
+                            <div class="photo" id="page5"><img src="img/food/recipe_05.jpg"></div>
+                    </div>
+                    
+
+                </div>
+        </div>
+
+        </div>
+        <!--推薦飲食 -->
+        <div id="insearch_part">
+               <div id="insearch_form_close">x</div>
+                <div id="insearch_title">計食開始</div>
+                <div id="insearch_calculate">
+                  <div id="insearch_textbox">
+                       <div class="insearch_text" id="WEIGHT_text">體重</div> 
+                       <div><input type="textbox" id="WEIGHT_show"></div>
+                       <div class="insearch_text" id="WORK_text">從事工作</div>
+                       <div id="show_select_3">
+                       <select name="work" id="work">
+                              <option value="0">--請選擇您的工作--</option>
+                              <option value="1">輕閒工作</option>
+                              <option value="2">中度工作</option>
+                              <option value="3">重度工作</option>
+                       </select>
+                       </div>
+                       <div class="insearch_text" id="Cal_text">每日應攝取(cal)</div>
+                        <div class="show_select_2" id="insearch_show"></div>
+                         <div class="tips1">
+                              <p>每日總熱量減去500卡以後，不可低於1200卡!<br>
+                               (不適用於未滿18歲的青少年、孕婦及哺乳婦、老年人、運動員)
+                               </p>
+                        </div>
+                 </div>
+                   <div id="insearch_tips_btn"><img src="img/light.png"></div>
+                        <div id="insearch_tips">
+                            <h3>每日攝取熱量計算法</h3>
+                            <p>
+                                1. 總熱量=肥胖者現有體重x30卡(輕閒工作) -500卡<br>
+                                                     35卡(中度工作)<br>
+                                                     40卡(重度工作)<br>
+                                2. 總熱量=肥胖者理想體重x20~25卡(臥床病人)<br>
+                                                     25卡(輕閒工作)<br>
+                                                     30卡(中度工作)<br>
+                                                     35卡(重度工作)<br>
+                            </p>
+
+                        </div>
+
+                    <div id="insearch_btn_container">
+                        <div class="insearch_submit_btn" id="insearch_clear">清除</div>
+                        <div class="insearch_submit_btn" id="insearch_ok">確認</div>
+                    </div>
+                </div>
+            </div>
+        <!--food_page's div -->
+        </div>
+
+        <!-- 運動與健身資訊 -->
+        <div class="sport_page">
+	        <div class="sport_title">運動與健身資訊</div>
+	        <div id="sport_content">
+	            <div class="sport_btn"  id="tips_btn" >
+	                <img src="img/f1.png" class="sport_img" id="tips_img">
+	                <h1 class="sport_text1">> 健身tips <</h1>
+	                <p class="sport_text2">
+	                	常見肌群練法簡介<br>
+	                	" 我怕我練太壯 "
+	                </p>
+	            </div>
+	            <div class="sport_btn" id="equ_btn" >
+	                <img src="img/f2.png" class="sport_img" id="equ_img">
+	                <h1 class="sport_text1">> 器材介紹 < </h1>
+	                <p class="sport_text2">
+	                	不知道健身房器材麼用? <br>
+	                	" 你不會?  我教你啊! "</p>
+	            </div>
+	        </div>
+
+	        <!-- 健身tips -->
+	        <div id="tips_page">
+	        	<div id="tips_page_tit"> 健身tips : </div>
+	        	<div id="tips_page_btns">
+	        		<div id="tips1" class="tips_btns">手部</div>
+	        		<div id="tips2" class="tips_btns">胸背</div>
+	        		<div id="tips3" class="tips_btns">核心</div>
+	        		<div id="tips4" class="tips_btns">腿部</div>
+	        	</div>
+
+	        	<div id="tipsc1">
+		        	<p class="sport_para">> 手部 - 啞鈴彎舉 <</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/7Xbh_w-EhYA" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 根據自身能力選擇合適重量 <br>
+		        		2. 抬頭挺胸，身體站直，盡量不要晃動<br>
+		        		3. 利用肘關節的彎曲，完整拉張和收縮<br> &emsp;二頭肌<br>
+		        		4. 注意呼吸，施力時吐氣  放鬆時吸氣 <br>
+		        	</p>
+	        	</div>
+
+	        	<div id="tipsc2">
+		        	<p class="sport_para">> 胸背 - 扶地挺身 <</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/gF0RzzO_TCU" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 若手臂無法負荷，可將膝蓋置於地板<br>
+		        		2. 身體向下動作時，手肘盡量保持在<br> &emsp;1.5倍肩寬內<br>
+		        		3. 指尖皆向前方，不要聳肩<br>
+		        		4. 注意肩胛骨的固定與控制<br>
+		        		5. 全身肌肉保持張力，身體保持一直線
+		        	</p>
+	        	</div>
+
+	        	<div id="tipsc3">
+		        	<p class="sport_para">> 核心 - 棒式 <</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/ZZ3rmX8YvgM" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 若手臂無法負荷，可將膝蓋置於地板<br>
+		        		2. 手肘置於肩膀垂直下方<br>
+		        		3. 避免腰椎過度伸展，肚子垂下來<br>
+		        		4. 不要拱起或駝背<br>
+		        		5. 頭部不要垂下來，將造成頸椎負擔<br>
+		        		6. 建議一組一分鐘，姿勢標準質大於量
+		        	</p>
+	        	</div>
+
+	        	<div id="tipsc4">
+		        	<p class="sport_para">> 腿部 - 深蹲 <</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/REjznoKN8Q8" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 運用屁股及大腿內側向後坐<br>
+		        		2. 上半身保持挺直，手臂協助平衡<br>
+		        		3. 膝蓋盡量不要超出腳尖<br>
+		        		4. 除了次數，也可以用蹲下去的秒數當<br> &emsp;訓練量<br>
+
+		        	</p>
+	        	</div>
+
+	        	<div id="tips_page_close"> X </div>
+	        </div>
+
+	        <!-- 器材介紹 -->
+	        <div id="equ_page">
+	        	<div id="equ_page_tit"> 器材介紹 : </div>
+	        	<div id="equ_page_btns">
+	        		<div id="equ1" class="equ_btns">滑輪下拉</div>
+	        		<div id="equ2" class="equ_btns">腿伸曲器</div>
+	        		<div id="equ3" class="equ_btns">仰臥推舉</div>
+	        	</div>
+
+	        	<div id="equc1">
+		        	<p class="sport_para">> 滑輪下拉 - 背部肌肉<</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/fyJ5GnFGPbA" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 肩膀放輕鬆不要出力，肩胛固定好<br>
+		        		2. 注意呼吸，施力時吐氣  放鬆時吸氣<br>
+		        		3. 身體側面維持一條垂直線<br>
+		        		4. 避免手握太緊，感受背部的張力<br>
+		        	</p>
+	        	</div>
+
+	        	<div id="equc2">
+		        	<p class="sport_para">> 腿伸曲器 - 股四頭肌<</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/tIiMjer6CwM" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 依身體調好腿曲伸器的座位<br>
+		        		2. 上半身筆直靠後坐並握好把手<br>
+		        		3. 可以根據不同訓練目標，動作放緩或做快<br>
+		        	</p>
+	        	</div>
+
+	        	<div id="equc3">
+		        	<p class="sport_para">> 啞鈴 - 臥推 - 胸大肌 <</p>
+		        	<iframe class="sport_video"src="https://www.youtube.com/embed/W8_ZwQrXYv8" frameborder="0"></iframe>
+		        	<p class="sport_text3">
+		        		1. 手向上伸直同時雙手內收來啟動胸肌<br>
+		        		2. 練胸由大拇指引導，練三頭由小指投<br> &emsp;引導<br>
+		        		3. 調整手肘拉張的位置及手腕帶動將能<br> &emsp;訓練不同位置<br>
+		        	</p>
+	        	</div>
+
+	        <div id="equ_page_close" >X</div>
+	        </div>
+
+        </div>
+             
+        
+    </div>
+    
+</body>
+</html>
